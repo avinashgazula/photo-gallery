@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import ProgressBar from './ProgressBar';
 
@@ -30,10 +31,13 @@ const UploadForm = () => {
 
     return (
         <form>
-            <label>
-                <input type="file" onChange={uploadHandler} />
-                <span>+</span>
-            </label>
+            <motion.div whileHover={{ scale: 1.3 }}>
+                <label>
+                    <input type="file" onChange={uploadHandler} />
+                    <span>+</span>
+                </label>
+            </motion.div>
+
 
             <div className="output">
                 {uploadError && <div className="error">{uploadError}</div>}
