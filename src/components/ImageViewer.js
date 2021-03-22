@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 const ImageViewer = ({ selectedImage, setSelectedImage }) => {
 
     const closeImage = (e) => {
@@ -8,9 +10,17 @@ const ImageViewer = ({ selectedImage, setSelectedImage }) => {
     }
 
     return (
-        <div onClick={closeImage} className="backdrop">
-            <img src={selectedImage} alt="large img" />
-        </div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={closeImage}
+            className="backdrop">
+            <motion.img
+                initial={{ y: "-100vh" }}
+                animate={{ y: 0 }}
+                src={selectedImage}
+                alt="large img" />
+        </motion.div>
     )
 }
 
