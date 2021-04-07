@@ -5,44 +5,46 @@ import ProgressBar from './ProgressBar';
 
 const UploadForm = () => {
 
-    const [file, setFile] = useState(null)
     const [uploadError, setUploadError] = useState(null)
 
-    const allowedFileTypes = ['image/png', 'image/jpeg']
+    const [files, setFiles] = useState(null)
 
     const clearState = () => {
-        setFile(null)
+        setFiles(null)
         setUploadError(null)
     }
 
-    const uploadHandler = (e) => {
-        e.preventDefault();
+
+    const uploadMultipleImages = (e) => {
+        e.preventDefault()
         clearState()
 
-        const uploadedFile = e.target.files[0]
-
-        if (uploadedFile && allowedFileTypes.includes(uploadedFile.type)) {
-            setFile(uploadedFile)
+        const uploadedFiles = e.target.files
+        if (uploadedFiles) {
+            setFiles(uploadedFiles)
+            setFiles(Array.from(uploadedFiles))
         } else {
-            setFile(null)
-            setUploadError('Upload images of the type png/jpeg')
+            setUploadError('Upload Images of the type PNG/JPG')
         }
+
     }
 
     return (
         <form>
             <motion.div whileHover={{ scale: 1.3 }}>
                 <label>
-                    <input type="file" onChange={uploadHandler} />
+                    <input type="file" accept=".png,.jpg,.jpeg" multiple onChange={uploadMultipleImages} />
                     <span>+</span>
                 </label>
             </motion.div>
 
-
             <div className="output">
                 {uploadError && <div className="error">{uploadError}</div>}
-                {file && <div>{file.name}</div>}
-                {file && <ProgressBar file={file} setFile={setFile} />}
+                {files && files.map(image => (
+                    <>
+                        {image && <ProgressBar file={image} />}
+                    </>
+                ))}
             </div>
         </form>
     )
